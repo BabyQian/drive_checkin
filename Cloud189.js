@@ -260,21 +260,24 @@ const main = async () => {
       if (!userName0 || !password0) continue;
       const cloudClient = new CloudClient(userName0, password0);
       await cloudClient.login();
+      const userNameInfo = mask(userName0, 3, 7);
       const { cloudCapacityInfo: finalCloudCapacityInfo, familyCapacityInfo: finalfamilyCapacityInfo } = await cloudClient.getUserSizeInfo();
+      
       const cloudCapacityChange = finalCloudCapacityInfo.totalSize - cloudCapacitySize;
       const capacityChange = finalfamilyCapacityInfo.totalSize - familyCapacitySize;
-      logger.log(`══════════容量汇总══════════\n`);
-      logger.log(`╔══╗`);
-      logger.log(`║账号║${mask(userName0,3,7)}`);     
-      logger.log(`╠══╣`);
-      logger.log(`║昨日║个人: ${(initialCloudCapacity / 1024 / 1024 / 1024).toFixed(2)}G , 家庭: ${(initialFamilyCapacity / 1024 / 1024 / 1024).toFixed(2)}G`);
-      logger.log(`╠══╣`);
-      logger.log(`║今日║个人: ${(finalCloudCapacityInfo.totalSize / 1024 / 1024 / 1024).toFixed(2)}G , 家庭: ${(finalFamilyCapacityInfo.totalSize / 1024 / 1024 / 1024).toFixed(2)}G`);
-      logger.log(`╚══╝`);
-      logger.log(`📊今日增长: 个人📈${cloudCapacityChange / 1024 / 1024}M ,家庭📈: ${familyCapacityChange / 1024 / 1024}M`);
+      logger.log(`本次签到${userNameInfo} 个人获得 ${cloudCapacityChange / 1024 / 1024}M`); // 新增
+      logger.log(`本次签到${userNameInfo} 家庭获得 ${capacityChange / 1024 / 1024}M \n`);
+      logger.log(`签到前${userNameInfo} 个人：${(cloudCapacitySize / 1024 / 1024 / 1024).toFixed(2)} GB`); 
+      logger.log(`签到前${userNameInfo} 家庭：${(familyCapacitySize / 1024 / 1024 / 1024).toFixed(2)} GB`);  
+      const { cloudCapacityInfo, familyCapacityInfo } = await cloudClient.getUserSizeInfo();
+      const personalTotalCapacity = (cloudCapacityInfo.totalSize / 1024 / 1024 / 1024).toFixed(2);  
+      const familyTotalCapacity = (familyCapacityInfo.totalSize / 1024 / 1024 / 1024).toFixed(2);    
+      logger.log(`${firstSpace}现主号${userNameInfo}个人：${personalTotalCapacity} GB`);
+      logger.log(`${firstSpace}现主号${userNameInfo}家庭：${familyTotalCapacity} GB`);
     }
   }
 };
+
 
 (async () => {
   try {
