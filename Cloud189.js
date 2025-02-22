@@ -260,15 +260,13 @@ const main = async () => {
       if (!userName0 || !password0) continue;
       const cloudClient = new CloudClient(userName0, password0);
       await cloudClient.login();
-      const userNameInfo = mask(userName0, 3, 7);
+
       const { cloudCapacityInfo: finalCloudCapacityInfo, familyCapacityInfo: finalfamilyCapacityInfo } = await cloudClient.getUserSizeInfo();
       
       const cloudCapacityChange = finalCloudCapacityInfo.totalSize - cloudCapacitySize;
       const capacityChange = finalfamilyCapacityInfo.totalSize - familyCapacitySize;
- 
-      const { cloudCapacityInfo, familyCapacityInfo } = await cloudClient.getUserSizeInfo();
-      const personalTotalCapacity = (cloudCapacityInfo.totalSize / 1024 / 1024 / 1024).toFixed(2);  
-      const familyTotalCapacity = (familyCapacityInfo.totalSize / 1024 / 1024 / 1024).toFixed(2);    
+      const formatSize = (size) => String((size / 1024 / 1024 / 1024).toFixed(2)).padStart(6, " ");
+   
       logger.log(`═══════ 容量汇总 ═══════\n`);
       logger.log(`╔══╗`);
       logger.log(`║账号║${mask(userName0, 3, 7)}`);
