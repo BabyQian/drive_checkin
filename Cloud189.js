@@ -265,15 +265,18 @@ const main = async () => {
       
       const cloudCapacityChange = finalCloudCapacityInfo.totalSize - cloudCapacitySize;
       const capacityChange = finalfamilyCapacityInfo.totalSize - familyCapacitySize;
+      const personalTotalCapacity = (finalCloudCapacityInfo.totalSize / 1024 / 1024 / 1024).toFixed(2);
+      const familyTotalCapacity = (finalfamilyCapacityInfo.totalSize / 1024 / 1024 / 1024).toFixed(2);
+
       const formatSize = (size) => String((size / 1024 / 1024 / 1024).toFixed(2)).padStart(6, " ");
    
       logger.log(`═══════ 容量汇总 ═══════\n`);
       logger.log(`╔══╗`);
       logger.log(`║账号║${mask(userName0, 3, 7)}`);
       logger.log(`╠══╣`);
-      logger.log(`║昨日║个人: ${(cloudCapacitySize / 1024 / 1024 / 1024).toFixed(2)} GB，家庭: ${(familyCapacitySize / 1024 / 1024 / 1024).toFixed(2)} GB`);
+      logger.log(`║昨日║个人: ${formatSize(cloudCapacitySize)} GB，家庭: ${formatSize(familyCapacitySize)} GB`);
       logger.log(`╠══╣`);
-      logger.log(`║今日║个人: ${personalTotalCapacity} GB，家庭: ${familyTotalCapacity} GB`);
+      logger.log(`║今日║个人: ${formatSize(finalCloudCapacityInfo.totalSize)} GB，家庭: ${formatSize(finalfamilyCapacityInfo.totalSize)} GB`);
       logger.log(`╚══╝`);
       logger.log(`📊今日增长: 个人📈${(cloudCapacityChange / 1024 / 1024).toFixed(2)}M，家庭📈${(capacityChange / 1024 / 1024).toFixed(2)}M`);
     }
