@@ -272,8 +272,8 @@ const main = async () => {
       const { cloudCapacityInfo, familyCapacityInfo } = await cloudClient.getUserSizeInfo();
       const personalTotalCapacity = (cloudCapacityInfo.totalSize / 1024 / 1024 / 1024).toFixed(2);  
       const familyTotalCapacity = (familyCapacityInfo.totalSize / 1024 / 1024 / 1024).toFixed(2);    
-      logger.log(`${firstSpace}现主号${userNameInfo}个人：${personalTotalCapacity} GB`);
-      logger.log(`${firstSpace}现主号${userNameInfo}家庭：${familyTotalCapacity} GB`);
+      logger.log(`${firstSpace}现主号${userNameInfo} 个人：${personalTotalCapacity} GB`);
+      logger.log(`${firstSpace}现主号${userNameInfo} 家庭：${familyTotalCapacity} GB`);
     }
   }
 };
@@ -286,7 +286,7 @@ const main = async () => {
     logger.log("\n\n");
     const events = recording.replay();
     const content = events.map((e) => `${e.data.join("")}`).join("  \n");
-    push("eamon天翼签到", content);
+    push("天翼云盘签到", content);
     recording.erase();
   }
 })();
